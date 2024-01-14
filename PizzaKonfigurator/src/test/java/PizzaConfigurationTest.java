@@ -3,202 +3,90 @@ import PizzaComponents.MainTopping;
 import PizzaComponents.Sauce;
 import PizzaComponents.SubTopping;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(Parameterized.class)
 public class PizzaConfigurationTest {
 
-    @Test
-    public void testBasePizza() {
-        PizzaConfiguration pizzaConfig = new PizzaConfiguration();
-        pizzaConfig.setDough(Dough.WHITE);
-        pizzaConfig.setSauce(Sauce.TOMATO);
-        PizzaOrder pizzaOrder = new PizzaOrder(pizzaConfig);
-        assertEquals(3.0, pizzaOrder.getAmount(),0.0);
+    private final Dough dough;
+    private final Sauce sauce;
+    private final MainTopping[] mainToppings;
+    private final SubTopping subTopping;
+    private final double expectedAmount;
+
+    @Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+                { Dough.WHITE, Sauce.TOMATO, new MainTopping[]{MainTopping.SALAMI}, SubTopping.MOZZARELLA, 5.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.MUSHROOM, MainTopping.HAM}, SubTopping.NONE, 6 },
+                { Dough.WHITE, Sauce.TOMATO, new MainTopping[]{MainTopping.SALAMI}, SubTopping.MOZZARELLA, 5.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.MUSHROOM, MainTopping.HAM}, SubTopping.NONE, 6.0 },
+                { Dough.WHOLE_GRAIN_80, Sauce.TOMATO, new MainTopping[]{MainTopping.LACHS, MainTopping.ARTICHOKE, MainTopping.SALAMI}, SubTopping.GOUDA, 11 },
+                { Dough.WHOLE_GRAIN_30, Sauce.TOMATO, new MainTopping[]{MainTopping.HAM, MainTopping.HAM, MainTopping.MUSHROOM}, SubTopping.NONE, 6.5 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SALAMI, MainTopping.LACHS}, SubTopping.GOUDA, 8.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.TOMATO, new MainTopping[]{MainTopping.DONER, MainTopping.MUSHROOM, MainTopping.HAM}, SubTopping.MOZZARELLA, 10 },
+                { Dough.WHOLE_GRAIN_80, Sauce.TOMATO, new MainTopping[]{MainTopping.ARTICHOKE, MainTopping.MUSHROOM, MainTopping.SPINACH}, SubTopping.GOUDA, 10 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.LACHS, MainTopping.HAM}, SubTopping.MOZZARELLA, 11 },
+                { Dough.WHITE, Sauce.TOMATO, new MainTopping[]{MainTopping.SALAMI}, SubTopping.NONE, 4.0 },
+                { Dough.WHOLE_GRAIN_30, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.MUSHROOM}, SubTopping.NONE, 5.0 },
+                { Dough.WHOLE_GRAIN_80, Sauce.TOMATO, new MainTopping[]{MainTopping.LACHS, MainTopping.ARTICHOKE}, SubTopping.GOUDA, 10 },
+                { Dough.WHOLE_GRAIN_30, Sauce.TOMATO, new MainTopping[]{MainTopping.HAM, MainTopping.MUSHROOM}, SubTopping.NONE, 5.5 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SALAMI, MainTopping.LACHS}, SubTopping.GOUDA, 8.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.TOMATO, new MainTopping[]{MainTopping.DONER, MainTopping.MUSHROOM, MainTopping.HAM}, SubTopping.MOZZARELLA, 10 },
+                { Dough.WHOLE_GRAIN_80, Sauce.TOMATO, new MainTopping[]{MainTopping.ARTICHOKE, MainTopping.MUSHROOM, MainTopping.SPINACH}, SubTopping.GOUDA, 10 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.LACHS, MainTopping.HAM}, SubTopping.MOZZARELLA, 11 },
+                { Dough.GLUTEN_FREE, Sauce.NONE, new MainTopping[]{MainTopping.ARTICHOKE, MainTopping.ARTICHOKE}, SubTopping.MOZZARELLA, 9 },
+                { Dough.WHITE, Sauce.TOMATO, new MainTopping[]{MainTopping.GARLIC, MainTopping.GARLIC}, SubTopping.NONE, 4.0 },
+                { Dough.WHOLE_GRAIN_80, Sauce.TOMATO, new MainTopping[]{MainTopping.LACHS, MainTopping.ARTICHOKE, MainTopping.SPINACH}, SubTopping.GOUDA, 12.0 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.LACHS, MainTopping.HAM}, SubTopping.GOUDA, 10.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.TOMATO, new MainTopping[]{MainTopping.DONER, MainTopping.MUSHROOM, MainTopping.HAM}, SubTopping.MOZZARELLA, 10.0 },
+                { Dough.WHOLE_GRAIN_80, Sauce.TOMATO, new MainTopping[]{MainTopping.ARTICHOKE, MainTopping.MUSHROOM, MainTopping.SPINACH}, SubTopping.GOUDA, 10.0 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.LACHS, MainTopping.HAM}, SubTopping.MOZZARELLA, 11.0 },
+                { Dough.WHITE, Sauce.TOMATO, new MainTopping[]{MainTopping.SALAMI, MainTopping.MUSHROOM, MainTopping.SPINACH, MainTopping.LACHS}, SubTopping.MOZZARELLA, 11.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.DONER, MainTopping.HAM, MainTopping.GARLIC}, SubTopping.GOUDA, 9.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.TOMATO, new MainTopping[]{MainTopping.ARTICHOKE, MainTopping.SALAMI, MainTopping.SPINACH, MainTopping.LACHS, MainTopping.HAM}, SubTopping.GOUDA, 13.5 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.LACHS, MainTopping.HAM, MainTopping.GARLIC}, SubTopping.MOZZARELLA, 11.5 },
+                { Dough.WHOLE_GRAIN_30, Sauce.TOMATO, new MainTopping[]{MainTopping.DONER, MainTopping.MUSHROOM, MainTopping.HAM, MainTopping.GARLIC}, SubTopping.GOUDA, 10 },
+                { Dough.WHITE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.LACHS, MainTopping.DONER, MainTopping.GARLIC}, SubTopping.GOUDA, 13 },
+                { Dough.WHOLE_GRAIN_80, Sauce.TOMATO, new MainTopping[]{MainTopping.SALAMI, MainTopping.MUSHROOM, MainTopping.SPINACH, MainTopping.LACHS, MainTopping.HAM, MainTopping.GARLIC}, SubTopping.MOZZARELLA, 14 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.DONER, MainTopping.SALAMI}, SubTopping.MOZZARELLA, 10.5 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SALAMI, MainTopping.SALAMI, MainTopping.SALAMI}, SubTopping.NONE, 7.5 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.DONER}, SubTopping.MOZZARELLA, 8.5 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SALAMI, MainTopping.SALAMI, MainTopping.SALAMI}, SubTopping.NONE, 6.5 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SALAMI, MainTopping.SALAMI, MainTopping.SALAMI}, SubTopping.MOZZARELLA, 9.5 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SALAMI, MainTopping.SALAMI, MainTopping.SALAMI}, SubTopping.NONE, 8.0 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SPINACH, MainTopping.MUSHROOM, MainTopping.LACHS, MainTopping.DONER, MainTopping.GARLIC}, SubTopping.MOZZARELLA, 15.0 },
+                { Dough.GLUTEN_FREE, Sauce.CREME_FRAICHE, new MainTopping[]{MainTopping.SALAMI, MainTopping.SALAMI, MainTopping.SALAMI, MainTopping.SALAMI, MainTopping.SALAMI}, SubTopping.MOZZARELLA, 15.5 }
+        });
+    }
+
+    public PizzaConfigurationTest(Dough dough, Sauce sauce, MainTopping[] mainToppings, SubTopping subTopping, double expectedAmount) {
+        this.dough = dough;
+        this.sauce = sauce;
+        this.mainToppings = mainToppings;
+        this.subTopping = subTopping;
+        this.expectedAmount = expectedAmount;
     }
 
     @Test
-    public void testWholeGrainPizza() {
-        PizzaConfiguration pizzaConfig = new PizzaConfiguration();
-        pizzaConfig.setDough(Dough.WHOLE_GRAIN_80);
-        pizzaConfig.setSauce(Sauce.CREME_FRAICHE);
-        pizzaConfig.getMainTopping().add(MainTopping.SALAMI);
-        pizzaConfig.getMainTopping().add(MainTopping.MUSHROOM);
-        pizzaConfig.getMainTopping().add(MainTopping.SPINACH);
-        pizzaConfig.setSubTopping(SubTopping.GOUDA);
-        PizzaOrder pizzaOrder = new PizzaOrder(pizzaConfig);
-        assertEquals(8.5, pizzaOrder.getAmount(),0.0);
+    public void testPizzaOrder() throws Exception {
+        PizzaConfiguration config = new PizzaConfiguration();
+        config.setDough(dough);
+        config.setSauce(sauce);
+        config.setMainTopping(Arrays.asList(mainToppings));
+        config.setSubTopping(subTopping);
+        try {
+            PizzaOrder order = new PizzaOrder(config);
+            assertEquals(expectedAmount, order.getAmount(), 0);
+        }catch (Exception e){
+            assertEquals(e.getMessage(),"Weiße soße gibt es bei glutenfrei nicht!");
+        }
     }
-
-    @Test
-    public void testGlutenFreePizza() {
-        PizzaConfiguration pizzaConfig = new PizzaConfiguration();
-        pizzaConfig.setDough(Dough.GLUTEN_FREE);
-        pizzaConfig.setSauce(Sauce.TOMATO);
-        pizzaConfig.getMainTopping().add(MainTopping.DONER);
-        pizzaConfig.getMainTopping().add(MainTopping.GARLIC);
-
-        PizzaOrder pizzaOrder = new PizzaOrder(pizzaConfig);
-        assertEquals(8.0, pizzaOrder.getAmount(),0.0);
-    }
-
-    @Test
-    public void testDoubleToppings() {
-        PizzaConfiguration pizzaConfig = new PizzaConfiguration();
-        pizzaConfig.setDough(Dough.WHITE);
-        pizzaConfig.setSauce(Sauce.CREME_FRAICHE);
-        pizzaConfig.getMainTopping().add(MainTopping.HAM);
-        pizzaConfig.getMainTopping().add(MainTopping.HAM);
-        pizzaConfig.getMainTopping().add(MainTopping.ARTICHOKE);
-        pizzaConfig.getMainTopping().add(MainTopping.GARLIC);
-        pizzaConfig.setSubTopping(SubTopping.GOUDA);
-
-        PizzaOrder pizzaOrder = new PizzaOrder(pizzaConfig);
-        assertEquals(10.0, pizzaOrder.getAmount(),0.0);
-    }
-
-    @Test
-    public void testInvalidCombination() {
-        PizzaConfiguration pizzaConfig = new PizzaConfiguration();
-        pizzaConfig.setDough(Dough.GLUTEN_FREE);
-        pizzaConfig.setSauce(Sauce.CREME_FRAICHE);
-
-        PizzaOrder pizzaOrder = new PizzaOrder(pizzaConfig);
-        assertEquals(0.0, pizzaOrder.getAmount(),0.0);
-    }
-
-    @Test
-    public void testMultipleMainToppings() {
-        PizzaConfiguration pizzaConfig = new PizzaConfiguration();
-        pizzaConfig.setDough(Dough.WHOLE_GRAIN_30);
-        pizzaConfig.setSauce(Sauce.TOMATO);
-        pizzaConfig.getMainTopping().add(MainTopping.SALAMI);
-        pizzaConfig.getMainTopping().add(MainTopping.MUSHROOM);
-        pizzaConfig.getMainTopping().add(MainTopping.SPINACH);
-        pizzaConfig.getMainTopping().add(MainTopping.ARTICHOKE);
-        pizzaConfig.getMainTopping().add(MainTopping.LACHS);
-        pizzaConfig.getMainTopping().add(MainTopping.DONER);
-
-        PizzaOrder pizzaOrder = new PizzaOrder(pizzaConfig);
-        assertEquals(12.5, pizzaOrder.getAmount(),0.0);
-    }
-
-    @Test
-    public void testDifferentDoughs() {
-        PizzaConfiguration pizzaConfig1 = new PizzaConfiguration();
-        pizzaConfig1.setDough(Dough.WHITE);
-        pizzaConfig1.setSauce(Sauce.TOMATO);
-
-        PizzaOrder pizzaOrder1 = new PizzaOrder(pizzaConfig1);
-        assertEquals(2.0, pizzaOrder1.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig2 = new PizzaConfiguration();
-        pizzaConfig2.setDough(Dough.WHOLE_GRAIN_30);
-        pizzaConfig2.setSauce(Sauce.CREME_FRAICHE);
-
-        PizzaOrder pizzaOrder2 = new PizzaOrder(pizzaConfig2);
-        assertEquals(3.0, pizzaOrder2.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig3 = new PizzaConfiguration();
-        pizzaConfig3.setDough(Dough.WHOLE_GRAIN_80);
-        pizzaConfig3.setSauce(Sauce.CREME_FRAICHE);
-
-        PizzaOrder pizzaOrder3 = new PizzaOrder(pizzaConfig3);
-        assertEquals(3.5, pizzaOrder3.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig4 = new PizzaConfiguration();
-        pizzaConfig4.setDough(Dough.GLUTEN_FREE);
-        pizzaConfig4.setSauce(Sauce.TOMATO);
-
-        PizzaOrder pizzaOrder4 = new PizzaOrder(pizzaConfig4);
-        assertEquals(4.0, pizzaOrder4.getAmount(),0.0);
-    }
-
-    @Test
-    public void testDifferentSauces() {
-        PizzaConfiguration pizzaConfig1 = new PizzaConfiguration();
-        pizzaConfig1.setDough(Dough.WHITE);
-        pizzaConfig1.setSauce(Sauce.TOMATO);
-
-        PizzaOrder pizzaOrder1 = new PizzaOrder(pizzaConfig1);
-        assertEquals(2.0, pizzaOrder1.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig2 = new PizzaConfiguration();
-        pizzaConfig2.setDough(Dough.WHITE);
-        pizzaConfig2.setSauce(Sauce.CREME_FRAICHE);
-
-        PizzaOrder pizzaOrder2 = new PizzaOrder(pizzaConfig2);
-        assertEquals(2.5, pizzaOrder2.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig3 = new PizzaConfiguration();
-        pizzaConfig3.setDough(Dough.WHITE);
-        pizzaConfig3.setSauce(Sauce.NONE);
-
-        PizzaOrder pizzaOrder3 = new PizzaOrder(pizzaConfig3);
-        assertEquals(2.0, pizzaOrder3.getAmount(),0.0);
-    }
-
-    @Test
-    public void testDifferentMainToppings() {
-        PizzaConfiguration pizzaConfig1 = new PizzaConfiguration();
-        pizzaConfig1.setDough(Dough.WHITE);
-        pizzaConfig1.setSauce(Sauce.TOMATO);
-        pizzaConfig1.getMainTopping().add(MainTopping.SALAMI);
-
-        PizzaOrder pizzaOrder1 = new PizzaOrder(pizzaConfig1);
-        assertEquals(3.0, pizzaOrder1.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig2 = new PizzaConfiguration();
-        pizzaConfig2.setDough(Dough.WHITE);
-        pizzaConfig2.setSauce(Sauce.TOMATO);
-        pizzaConfig2.getMainTopping().add(MainTopping.MUSHROOM);
-
-        PizzaOrder pizzaOrder2 = new PizzaOrder(pizzaConfig2);
-        assertEquals(3.0, pizzaOrder2.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig3 = new PizzaConfiguration();
-        pizzaConfig3.setDough(Dough.WHITE);
-        pizzaConfig3.setSauce(Sauce.TOMATO);
-        pizzaConfig3.getMainTopping().add(MainTopping.SPINACH);
-
-        PizzaOrder pizzaOrder3 = new PizzaOrder(pizzaConfig3);
-        assertEquals(4.0, pizzaOrder3.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig4 = new PizzaConfiguration();
-        pizzaConfig4.setDough(Dough.WHITE);
-        pizzaConfig4.setSauce(Sauce.TOMATO);
-        pizzaConfig4.getMainTopping().add(MainTopping.ARTICHOKE);
-
-        PizzaOrder pizzaOrder4 = new PizzaOrder(pizzaConfig4);
-        assertEquals(4.0, pizzaOrder4.getAmount(),0.0);
-    }
-
-    @Test
-    public void testDifferentSubToppings() {
-        PizzaConfiguration pizzaConfig1 = new PizzaConfiguration();
-        pizzaConfig1.setDough(Dough.WHITE);
-        pizzaConfig1.setSauce(Sauce.TOMATO);
-        pizzaConfig1.setSubTopping(SubTopping.GOUDA);
-
-        PizzaOrder pizzaOrder1 = new PizzaOrder(pizzaConfig1);
-        assertEquals(3.0, pizzaOrder1.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig2 = new PizzaConfiguration();
-        pizzaConfig2.setDough(Dough.WHITE);
-        pizzaConfig2.setSauce(Sauce.TOMATO);
-        pizzaConfig2.setSubTopping(SubTopping.MOZZARELLA);
-
-        PizzaOrder pizzaOrder2 = new PizzaOrder(pizzaConfig2);
-        assertEquals(3.0, pizzaOrder2.getAmount(),0.0);
-
-        PizzaConfiguration pizzaConfig3 = new PizzaConfiguration();
-        pizzaConfig3.setDough(Dough.WHITE);
-        pizzaConfig3.setSauce(Sauce.TOMATO);
-        pizzaConfig3.setSubTopping(SubTopping.NONE);
-
-        PizzaOrder pizzaOrder3 = new PizzaOrder(pizzaConfig3);
-        assertEquals(2.0, pizzaOrder3.getAmount(),0.0);
-    }
-
-    // Weitere Testfälle können hier hinzugefügt werden
 }

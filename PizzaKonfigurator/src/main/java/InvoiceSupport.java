@@ -1,5 +1,5 @@
 public interface InvoiceSupport {
 
-    public double getAmount();
+    public double getAmount() throws Exception;
 
 }
