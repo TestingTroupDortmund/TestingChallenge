@@ -1,0 +1,15 @@
+Ordnerstruktur
+
+-src
+   |-main/java
+		|-PizzaComponents
+			Dough.java
+			MainTopping.java
+			Sauce.java
+			SubTopping.java
+		InvoiceSupport.java
+		PizzaConfiguration.java
+		PizzaConfigurator.java
+		PizzaOrder.java
+   |-test/java
+pom.xml
