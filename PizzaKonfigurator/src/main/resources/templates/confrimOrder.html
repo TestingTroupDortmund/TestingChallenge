@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pizza Configurator - Confirm Order</title>
+</head>
+<body>
+<h2>Order Confirmation</h2>
+
+<p>Your pizza order has been confirmed! Thank you for choosing our Pizza Configurator.</p>
+
+<p><strong>Details:</strong></p>
+<p><strong>Dough:</strong> <span th:text="${pizza.dough}"></span></p>
+<p><strong>Sauce:</strong> <span th:text="${pizza.sauce}"></span></p>
+<p><strong>Toppings:</strong></p>
+<ul>
+  <li th:each="topping : ${pizza.toppings}" th:text="${topping}"></li>
+</ul>
+<p><strong>Cheese Topping:</strong> <span th:text="${pizza.cheeseTopping}"></span></p>
+
+<p><strong>Total Price:</strong> €<span th:text="${totalPrice}"></span></p>
+
+<p>Thank you for ordering from Pizza Configurator!</p>
+</body>
+</html>
