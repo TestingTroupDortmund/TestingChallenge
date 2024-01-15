@@ -38,20 +38,31 @@ public class PizzaOrder implements InvoiceSupport {
         }
     }
 
-    private void calculateSauceCost() {
-        Sauce sauce = pizzaConfiguration.getSauce();
-        switch (sauce) {
-            case NONE:
-                amount += 0;
-                break;
-            case TOMATO:
-                amount += 1;
-                break;
-            case CREME_FRAICHE:
+    Um die zusätzliche Anforderung zu berücksichtigen, dass "glutenfrei" nicht mit "Weiße Sauce" kombiniert werden kann, müssen wir die `calculateSauceCost`-Methode entsprechend anpassen. Hier ist die aktualisierte Implementierung:
+
+
+private void calculateSauceCost() {
+    Sauce sauce = pizzaConfiguration.getSauce();
+    Dough dough = pizzaConfiguration.getDough();
+
+    switch (sauce) {
+        case NONE:
+            amount += 0;
+            break;
+        case TOMATO:
+            amount += 1;
+            break;
+        case CREME_FRAICHE:
+            // Check if the dough is gluten-free and the sauce is "Weiße Sauce"
+            if (dough == Dough.GLUTEN_FREE) {
+                System.out.println("Error: Gluten-free dough cannot be combined with Weiße Sauce.");
+                // You might want to handle this error case differently, e.g., throw an exception.
+            } else {
                 amount += 1.5;
-                break;
-        }
+            }
+            break;
     }
+}
 
     private void calculateMainToppingCost() {
         List<MainTopping> mainToppings = pizzaConfiguration.getMainTopping();
