@@ -27,19 +27,16 @@ public class PizzaOrder implements InvoiceSupport {
                 amount += 2;
                 break;
             case WHOLE_GRAIN_30:
-                amount += 0.5;
+                amount += 2.5;
                 break;
             case WHOLE_GRAIN_80:
-                amount += 1;
+                amount += 3;
                 break;
             case GLUTEN_FREE:
-                amount += 1.5;
+                amount += 3.5;
                 break;
         }
     }
-
-    Um die zusätzliche Anforderung zu berücksichtigen, dass "glutenfrei" nicht mit "Weiße Sauce" kombiniert werden kann, müssen wir die `calculateSauceCost`-Methode entsprechend anpassen. Hier ist die aktualisierte Implementierung:
-
 
 private void calculateSauceCost() {
     Sauce sauce = pizzaConfiguration.getSauce();
